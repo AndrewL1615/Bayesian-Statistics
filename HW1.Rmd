@@ -1,0 +1,31 @@
+---
+title: "HW1"
+author: "Andrew Liang"
+date: "9/11/2020"
+output: pdf_document
+---
+
+**2b)**
+```{r}
+n <- 20
+y <- 36
+theta <- seq(0.1, 5, length = 50)
+py.theta <- dpois(y, lambda = n*theta)
+ptheta <- rep(1/50, length = length(theta))
+ptheta.y <- py.theta * ptheta/sum(py.theta * ptheta)
+plot(theta, ptheta.y)
+```
+**2c)**
+```{r}
+
+```
+
+```{r}
+n <- 40
+y <- 72
+theta <- seq(0.1, 5, length = 50)
+py.theta <- dpois(n,y, lambda = n*theta)
+ptheta <- rep(1/50, length = length(theta))
+ptheta.y <- py.theta * ptheta/sum(py.theta * ptheta)
+plot(theta, ptheta.y)
+```
