@@ -5,7 +5,7 @@ date: "9/11/2020"
 output: pdf_document
 ---
 
-**2b)**
+**3b)**
 ```{r}
 n <- 20
 y <- 36
@@ -15,17 +15,24 @@ ptheta <- rep(1/50, length = length(theta))
 ptheta.y <- py.theta * ptheta/sum(py.theta * ptheta)
 plot(theta, ptheta.y)
 ```
-**2c)**
+**3c)**
 ```{r}
-
+exptheta.y <- (1+y)/(1+n)
+exptheta.y
+```
+**3d)**
+```{r}
+qgamma(c(.025, .975), 1+y, 1+n)
 ```
 
+**3e)**
 ```{r}
 n <- 40
 y <- 72
 theta <- seq(0.1, 5, length = 50)
-py.theta <- dpois(n,y, lambda = n*theta)
+py.theta <- dpois(y, lambda = n*theta)
 ptheta <- rep(1/50, length = length(theta))
 ptheta.y <- py.theta * ptheta/sum(py.theta * ptheta)
 plot(theta, ptheta.y)
 ```
+Comparing this plot to the plot from part b, we can see that we have a narrower probability distribution. Since we've observed a higher number of observations, this gives us more information about our expected value of theta given our sampling methods and thus our probability is more concentrated around the mean. 
