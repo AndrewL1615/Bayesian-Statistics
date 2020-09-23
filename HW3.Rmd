@@ -48,7 +48,7 @@ print(postprob)
 plot(n0, postprob, type = "l", main = "Posterior Prob. Theta B < Theta A", xlab = "n0", ylab = "Probability")
 ```
 
-From the output above, we can see all the values of $Pr(\theta_{B} < \theta_{A}|y_{A},y_{B})$ for each $n_{0} = {1,2,\cdots,100}$ and the plot associated with it. We can see that although there is an obvious effect on the posterior probability for an increasing $n_{0}$, it is arguable that conclusions about event $\theta_{B} <\theta_{A}$ is not very sensitive from the prior distribution of $\theta_{B}$. Even if $n_{0} = 100$, $Pr(\theta_{B} < \theta_{A}|y_{A},y_{B})$ is still greater than 0.6.
+From the output above, we can see all the values of $Pr(\theta_{B} < \theta_{A}|y_{A},y_{B})$ for each $n_{0} = {1,2,\cdots,100}$ and the plot associated with it. We can see that although there is an obvious negative effect on the posterior probability for an increasing $n_{0}$, it is arguable that conclusions about event $\theta_{B} <\theta_{A}$ is not very sensitive from the prior distribution of $\theta_{B}$. Even if $n_{0} = 100$, $Pr(\theta_{B} < \theta_{A}|y_{A},y_{B})$ is still greater than 0.6.
 
 **c)**
 ```{r}
@@ -63,6 +63,7 @@ yb.mc <- rpois(10000, thetab.mc)
 
 mean(yb.mc < ya.mc)
 ```
+Thus, $Pr(\tilde{Y_{B}} < \tilde{Y_{A}}|y_{A},y_{B})$ = 0.6996
 
 ```{r}
 set.seed(1651)
@@ -89,8 +90,8 @@ ta.mc <- c() #sample statistic of interest
 set.seed(1651)
 
 for(s in 1:1000){
-  thetaa.mc <- rgamma(10, a1 + sya, a2 + na)
-  ya.mc <- rpois(10,thetaa.mc)
+  thetaa.mc <- rgamma(1, a1 + sya, a2 + na)
+  ya.mc <- rpois(na,thetaa.mc)
   ta.mc[s] <- mean(ya.mc)/sd(ya.mc) 
 }
 ta.obs <- mean(ya)/sd(ya)
@@ -104,7 +105,7 @@ for(i in 1:1000){
 }
 mean(diff)
 ```
-From the histogram, we can see that the mode of the statistic through the Monte Carlo samples is pretty close to the observed value of the statistic, with an mean absolute difference of about 0.22. Thus, the Poisson is a pretty good fit for the test statistic based on sample A.
+From the histogram, we can see that the mode of the statistic through the Monte Carlo samples is pretty close to the observed value of the statistic, with an mean absolute difference of about 0.26. Thus, the Poisson is a pretty good fit for the test statistic based on sample A.
 
 **b)**
 ```{r}
@@ -112,8 +113,8 @@ tb.mc <- c()
 set.seed(1651)
 
 for(s in 1:1000){
-  thetab.mc <- rgamma(13, b1 + syb, b2 + nb)
-  yb.mc <- rpois(13,thetab.mc)
+  thetab.mc <- rgamma(1, b1 + syb, b2 + nb)
+  yb.mc <- rpois(nb,thetab.mc)
   tb.mc[s] <- mean(yb.mc)/sd(yb.mc) 
 }
 tb.obs <- mean(yb)/sd(yb)
@@ -127,4 +128,4 @@ for(i in 1:1000){
 mean(diff)
 ```
 
-From the histogram, we can see that the mode of the statistic through the Monte Carlo samples is much further way from the observed value of the statistic, with an mean absolute difference of about 2.71. Thus, the Poisson is not a good fit for the test statistic based on sample B.
+From the histogram, we can see that the mode of the statistic through the Monte Carlo samples is much further way from the observed value of the statistic, with an mean absolute difference of about 2.67. Thus, the Poisson is not a good fit for the test statistic based on sample B.
