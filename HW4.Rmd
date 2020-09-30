@@ -199,13 +199,13 @@ postprob <- c()
 for(i in 1:length(k0)){
   #MC sampling for A
   mu.a <- (k0[i]*mu0 + na*ybara)/kn[i]
-  s2.a <- (v0[i]*s20 + (n-1)*s20 + k0[i]*n*(ybara-mu0)^2/kn[i])/vn[i]
+  s2.a <- (v0[i]*s20 + (n-1)*(sa^2) + k0[i]*n*(ybara-mu0)^2/kn[i])/vn[i]
   s.postsample.a <- sqrt(1/rgamma(10000, vn[i]/2, s2.a * vn[i]/2))
   theta.postsample.a <- rnorm(10000, mu.a, s.postsample.a/sqrt(kn[i]))
   
   #MC sampling for B
   mu.b <- (k0[i]*mu0 + nb*ybarb)/kn[i]
-  s2.b <- (v0[i]*s20 + (n-1)*s20 + k0[i]*n*(ybara-mu0)^2/kn[i])/vn[i]
+  s2.b <- (v0[i]*s20 + (n-1)*(sb^2) + k0[i]*n*(ybara-mu0)^2/kn[i])/vn[i]
   s.postsample.b <- sqrt(1/rgamma(10000, vn[i]/2, s2.b * vn[i]/2))
   theta.postsample.b <- rnorm(10000, mu.b, s.postsample.b/sqrt(kn[i])) 
   
@@ -215,4 +215,4 @@ for(i in 1:length(k0)){
 plot(k0, postprob, main = "P(theta A < theta B | y_A,y_B)", 
      type = "l", xlab = "k0 = v0", ylab = "Probabilities")
 ```
-From the plot above, we can see that as $\kappa_{0} = \nu_{0}$ increases, the probability of $\theta_{A}<\theta_{B}|y_{A},y_{B}$ decreases. We can think of $\kappa_{0}, \nu_{0}$ as the prior sample size. Thus, if one has a very large sample size, they are less certain that $\theta_{A}<\theta_{B}|y_{A},y_{B}$ is true, where as someone with a smaller prior sample size would be more certain of $\theta_{A}<\theta_{B}|y_{A},y_{B}$
+From the plot above, we can see that as $\kappa_{0} = \nu_{0}$ increases, the probability of $\theta_{A}<\theta_{B}|y_{A},y_{B}$ decreases. We can think of $\kappa_{0}, \nu_{0}$ as the prior sample size. Thus, if one has a very large/stronger sample size, they are less certain that $\theta_{A}<\theta_{B}|y_{A},y_{B}$ is true, where as someone with a smaller/weaker prior sample size would be more certain of $\theta_{A}<\theta_{B}|y_{A},y_{B}$
