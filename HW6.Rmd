@@ -268,7 +268,7 @@ It seems that for each variable j, the $P(\theta_{d,j} > \theta_{n,j} | Y)$ is 1
 ## b)
 ```{r}
 #posterior means of Sigmas
-mean(SIGMAy > SIGMAn)
-plot(SIGMAy)
+mean(SIGMAy)
+mean(SIGMAn)
 ```
 
