@@ -1,0 +1,64 @@
+---
+title: "STAT1651 HW5 R Output"
+author: "Andrew Liang"
+date: "10/22/2020"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# 6.1
+
+## d)
+```{r}
+Y_a <- scan("menchild30bach.dat", quote = "")
+Y_b <- scan("menchild30nobach.dat", quote = "")
+
+n_a <- length(Y_a); n_b <- length(Y_b)
+ybar_a <- mean(Y_a); ybar_b <- mean(Y_b)
+a_theta <- 2; b_theta <- 1
+S <- 5000
+
+ab_gamma <- c(8, 16, 32, 64, 128)
+
+theta_diff <- sapply(ab_gamma, function(abg){
+  a_gamma <- b_gamma <- abg
+  
+  THETA <- numeric(S)
+  GAMMA <- numeric(S)
+  
+  # starting values
+  theta <- ybar_a
+  gamma <- ybar_a / ybar_b #relative rate of theta B over theta A
+  
+  #Gibbs sampling for thetas iterated 5000 times
+  for(s in 1:S){
+    theta <- rgamma(
+      1,
+      a_theta + n_a * ybar_a + n_b * ybar_b,
+      b_theta + n_a + n_b * gamma
+    )
+    
+    gamma <- rgamma(
+      1,
+      a_gamma + n_b * ybar_b,
+      b_gamma + n_b * theta
+    )
+    
+    THETA[s] <- theta
+    GAMMA[s] <- gamma
+    
+  }
+  
+  #final theta values
+  THETA_A <- THETA
+  THETA_B <- THETA * GAMMA
+  
+  mean(THETA_B - THETA_A)
+})
+
+plot(main = "Gibbs Sampling",x = ab_gamma, y = theta_diff, type = "l")
+```
+Since $a_{\gamma}=b_{\gamma}$, the gamma distribution is centered around 1 and the values reflect the strength of our belief that $\gamma = \frac{\theta_{B}}{\theta_{A}}$ is 1. From the plot above, we can see that as our prior belief of $\gamma$ increases, the mean posterior $\theta_{B}-\theta_{A}$ decreases.
